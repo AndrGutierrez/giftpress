@@ -1,0 +1,84 @@
+/*
+ * Theme name: giftpress
+ * Version: 1.0
+ * Description: Product catalog site
+ * Author: Andrés Gutiérrez
+ * Author URI: https://github.com/AndrGutierrez
+ * License: GNU General Public License v2 or later
+ * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * */
+
+.menu-title{
+	text-decoration: none;
+}
+
+a{
+	text-decoration: none;
+	color: black;
+}
+a:hover{
+
+	color: gray
+}
+
+li{
+	padding: 5px;
+	list-style-type: none;
+	font-weight: bold;
+	font-size: 20px;
+}
+.page_item{
+	width: fit-content;
+}
+
+footer{
+	background-color: black;
+	color: white;
+}
+ul{
+	display: flex;
+	justify-content: space-around;
+	margin: 0;
+}
+.icon{
+	width: 100px;
+}
+.header{
+	border-bottom: 1px solid gray;
+}
+
+.wp-post-image{
+	width: 100%;
+	padding: 0;
+	object-fit: cover;
+}
+
+.thumbnail-container{
+	border-bottom: 1px gray solid;
+}
+
+.add{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	color: white;
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	right: 20px;
+	bottom: 35px;
+}
+
+.plus{
+	height: 41px;
+}
+
+.product-info{
+	position: relative;
+}
+
+.link{
+	text-decoration: underline;
+	color: blue;
+}
