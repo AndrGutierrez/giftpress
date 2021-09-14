@@ -114,7 +114,35 @@ function products_type(){
 	);
 	register_post_type('product', $args);
 }
+
+function pgCutEscerpt( $length ) {
+	// Excerpt length es de 20 palabras
+	return 20;
+}
+
+function pgRegisterTax(){
+	/*
+	 * CREATE NEW TAXONOMY (product categories)
+	 */
+	$args = array(
+		'hierarchical' => true,
+		'labels' => array(
+			'name'=> 'Product Categories',
+			'singular_name'=> 'Product Category',
+		),
+		'show_in_nav_menu' => true,
+		'show_admin_column' => true,
+		// routing
+		'rewrite' => array('slug'=>'product-category')
+	);
+	// name, post types
+	register_taxonomy('product-category', array('product'), $args);
+
+}
+
+add_filter('excerpt_length', 'pgCutEscerpt');
 add_action('after_setup_theme', 'init_template');
 add_action('widgets_init', 'sidebar');
 add_action('wp_enqueue_scripts', 'assets');
 add_action('init', 'products_type');
+add_action('init', 'pgRegisterTax');

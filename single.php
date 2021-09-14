@@ -20,6 +20,8 @@
                         <?php the_content(); ?>
                     </div>
                 </div>
+                <!-- show next post or previous post --!>
+                <?php get_template_part('template-parts/post', 'navigation')?>
             </div>
         <?php }
     }

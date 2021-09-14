@@ -72,6 +72,7 @@ ul{
 
 .plus{
 	height: 41px;
+	font-size: 25px
 }
 
 .product-info{
@@ -81,4 +82,19 @@ ul{
 .link{
 	text-decoration: underline;
 	color: blue;
+}
+img{
+	object-fit: cover;
+	height: inherit
+}
+
+.thumbnail{
+	height: 150px;
+}
+.thumbnail-container{
+	height: 200px;
+}
+.related-product{
+	border: 1px solid gray;
+
 }

@@ -12,6 +12,7 @@
         <div class="product-list row">
             <h2 class="text-center">
                 PRODUCTS
+            </h2>
                 <?php
                 $args = array(
                     // the post type we created (check functions.php)
@@ -49,7 +50,6 @@
                     <?php }
                 }
                 ?>
-            </h2>
         </div>
 </main>
 <?php get_footer(); ?>
