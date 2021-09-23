@@ -57,6 +57,12 @@ function assets(){
 	);
 	//loading our custom javascript files
 	wp_enqueue_script('custom', get_template_directory_uri().'/assets/js/custom.js', '', '1.0', true);
+	// passing ajax route to scripts
+	//handler (file), 'object name (gp (giftpress))'
+	wp_localize_script('custom', 'gp', array(
+		'ajaxurl'=> admin_url('admin-ajax.php'),
+		'apiurl' => home_url('wp-json/pg/v1')
+	));
 }
 
 function sidebar(){
@@ -140,9 +146,87 @@ function pgRegisterTax(){
 
 }
 
+//wordpress ajax
+function gpFilterProducts(){
+	$args = array(
+		'post_type'=>'product',
+		'posts_per_page'=>-1,
+		'order'=>'ASC',
+		'orderby'=>'title'
+	);
+	if($_POST['category']){
+	/* 	//si pedimos categorías, muestralo por categorías, si no, muestra todos los productos */
+		$args['tax_query'] =array(
+			array(
+				'taxonomy'=> 'product-category',
+				'field'=> 'slug',
+				'terms' => $_POST['category']
+			)
+		);
+	}
+
+	$products = new WP_Query($args);
+	if($products->have_posts()){
+	/* 		return array(); */
+		while($products->have_posts()){
+			$products->the_post();
+			$return[] = array(
+				'image' => get_the_post_thumbnail(get_the_id(), 'large'),
+				'link' => get_the_permalink(),
+				'title'=> get_the_title(), 
+			);
+		}
+		wp_send_json($return);
+	}
+}
+
+add_action('rest_api_init', 'newsAPI');
+function newsAPI(){
+	//wordpress api
+	register_rest_route(
+		//giftpress verison 1
+		'gp/v1',
+		//route news (amount is passed as $data argument in newsRequest)
+		'/news/(?P<amount>\d+)',
+		array(
+			'methods' => 'GET',
+			'callback' =>'newsRequest'
+		)
+	);
+}
+
+function newsRequest($data){
+	$args = array(
+		'post_type'=>'post',
+		'posts_per_page'=>$data['amount'],
+		'order'=>'ASC',
+		'orderby'=>'title'
+	);
+
+	$news = new WP_Query($args);
+		if($news->have_posts()){
+	/* 		return array(); */
+			while($news->have_posts()){
+				$news->the_post();
+				$return[] = array(
+					'image' => get_the_post_thumbnail(get_the_id(), 'large'),
+					'link' => get_the_permalink(),
+					'title'=> get_the_title(), 
+				);
+			}
+			return $return;
+		}
+
+}
+
 add_filter('excerpt_length', 'pgCutEscerpt');
 add_action('after_setup_theme', 'init_template');
 add_action('widgets_init', 'sidebar');
 add_action('wp_enqueue_scripts', 'assets');
 add_action('init', 'products_type');
 add_action('init', 'pgRegisterTax');
+
+//for not login users
+add_action('wp_ajax_nopriv_gpFilterProducts', 'gpFilterProducts');
+//for login users
+add_action('wp_ajax_gpFilterProducts', 'gpFilterProducts');

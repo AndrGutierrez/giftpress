@@ -40,6 +40,12 @@ $products = new WP_Query($args);
                             Product Name: <?php the_title(); ?>
                         </h1>
                         <?php the_content(); ?>
+
+                        <div>
+                            <?php
+                                /* we are bringing here a contact form 7/ CFDB7 generated form */
+                                echo do_shortcode('[contact-form-7 id="57" title="Contact"]') ?>
+                        </div>
                     </div>
                 </div>
                 <?php if ($products->have_posts()){ ?>

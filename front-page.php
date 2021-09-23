@@ -13,6 +13,20 @@
             <h2 class="text-center">
                 PRODUCTS
             </h2>
+                <div class="row">
+                    <div class="col-12">
+                        <select id="product-category" name="prouct-category" class="form-control">
+                        <?php
+                            // we pass a taxonomy as argument
+                            // hide if there is not products
+                            $terms= get_terms('product-category', array('hide-empty'=>true));
+                            foreach($terms as $term){
+                                echo '<option value= "'.$term->slug.'">'.$term->name.'</option>';
+                            }
+                        ?>
+                        </select>
+                    </div>
+                </div>
                 <?php
                 $args = array(
                     // the post type we created (check functions.php)
